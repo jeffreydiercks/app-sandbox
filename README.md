@@ -22,7 +22,8 @@ Structured from the recommended .NET solution layout:
 ## Run locally
 
 ```bash
-dotnet build app-sandbox.slnx
+dotnet build app-sandbox.sln
+dotnet test app-sandbox.sln
 dotnet run --project src/AppSandbox/AppSandbox.csproj
 ```
 
