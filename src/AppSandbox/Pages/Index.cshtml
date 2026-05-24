@@ -1,0 +1,30 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "App Sandbox";
+}
+
+<div class="py-4">
+    <h1 class="display-5">App Sandbox</h1>
+    <p class="lead">A .NET 10 Razor Pages navigation hub for personal desktop-friendly utilities.</p>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 card-title">Navigation Hub</h2>
+                <p class="card-text">Index page for launching apps in this solution.</p>
+                <a class="btn btn-primary" asp-page="/Index">Open</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-body">
+                <h2 class="h5 card-title">More apps coming soon</h2>
+                <p class="card-text mb-0">Add additional Razor Pages projects under <code>/src</code> and link them here.</p>
+            </div>
+        </div>
+    </div>
+</div>
