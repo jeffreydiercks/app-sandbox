@@ -23,9 +23,10 @@ builder.AddCosmosDbContext<MyVersesDbContext>("cosmos", "myverses");
 
 var app = builder.Build();
 
-// Ensure Cosmos DB database and container exist (emulator or real account)
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    // Ensure Cosmos DB database and container exist in local development.
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<MyVersesDbContext>();
     await db.Database.EnsureCreatedAsync();
 }

@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using MyVerses.Data;
 using MyVerses.Models;
+using MyVerses.Security;
 
 namespace MyVerses.Pages;
 
@@ -13,17 +14,22 @@ public class IndexModel(MyVersesDbContext db) : PageModel
     public int PrayerCount { get; private set; }
     public List<Verse> RecentVerses { get; private set; } = [];
 
-    public async Task OnGetAsync()
+    public async Task<IActionResult> OnGetAsync()
     {
-        var userId = User.GetObjectId() ?? string.Empty;
+        var userId = User.GetStableUserId();
+        if (string.IsNullOrWhiteSpace(userId))
+            return Forbid();
 
-        var verses = await db.Verses
-            .Where(v => v.UserId == userId)
+        var query = db.Verses.Where(v => v.UserId == userId);
+
+        QuoteCount = await query.CountAsync(v => v.Category == VerseCategory.Quote);
+        ExcerptCount = await query.CountAsync(v => v.Category == VerseCategory.Excerpt);
+        PrayerCount = await query.CountAsync(v => v.Category == VerseCategory.Prayer);
+        RecentVerses = await query
+            .OrderByDescending(v => v.CreatedAt)
+            .Take(5)
             .ToListAsync();
 
-        QuoteCount = verses.Count(v => v.Category == VerseCategory.Quote);
-        ExcerptCount = verses.Count(v => v.Category == VerseCategory.Excerpt);
-        PrayerCount = verses.Count(v => v.Category == VerseCategory.Prayer);
-        RecentVerses = verses.OrderByDescending(v => v.CreatedAt).Take(5).ToList();
+        return Page();
     }
 }

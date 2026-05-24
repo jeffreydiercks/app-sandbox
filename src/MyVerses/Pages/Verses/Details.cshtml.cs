@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Web;
 using MyVerses.Data;
 using MyVerses.Models;
+using MyVerses.Security;
 
 namespace MyVerses.Pages.Verses;
 
@@ -13,7 +13,10 @@ public class DetailsModel(MyVersesDbContext db) : PageModel
 
     public async Task<IActionResult> OnGetAsync(string id)
     {
-        var userId = User.GetObjectId() ?? string.Empty;
+        var userId = User.GetStableUserId();
+        if (string.IsNullOrWhiteSpace(userId))
+            return Forbid();
+
         var verse = await db.Verses
             .Where(v => v.UserId == userId && v.Id == id)
             .FirstOrDefaultAsync();

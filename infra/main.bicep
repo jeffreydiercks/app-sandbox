@@ -10,7 +10,8 @@ param environment string = 'dev'
 var planName = 'plan-${appName}-${environment}'
 var siteName = 'app-${appName}-apphub-${environment}'
 var myVersesSiteName = 'app-${appName}-myverses-${environment}'
-var cosmosAccountName = 'cosmos-${appName}-${environment}'
+var cosmosAccountName = toLower(take(replace('cosmos${appName}${environment}', '-', ''), 44))
+var cosmosPrimaryKey = listKeys(cosmosAccount.id, '2024-05-15').primaryMasterKey
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2023-12-01' = {
   name: planName
@@ -57,7 +58,7 @@ resource myVersesSite 'Microsoft.Web/sites@2023-12-01' = {
       appSettings: [
         { name: 'AzureAd__TenantId', value: 'consumers' }
         { name: 'AzureAd__ClientId', value: 'c2e2687b-af23-4e02-94c4-ec2b997a129a' }
-        { name: 'ConnectionStrings__cosmos', value: cosmosAccount.properties.documentEndpoint }
+        { name: 'ConnectionStrings__cosmos', value: 'AccountEndpoint=${cosmosAccount.properties.documentEndpoint};AccountKey=${cosmosPrimaryKey};' }
       ]
     }
   }
