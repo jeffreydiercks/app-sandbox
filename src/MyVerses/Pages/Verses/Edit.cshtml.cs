@@ -14,7 +14,15 @@ public class EditModel(MyVersesDbContext db) : PageModel
 
     public async Task<IActionResult> OnGetAsync(string id)
     {
-        var userId = User.GetObjectId() ?? string.Empty;
+        var userId =
+            User.GetObjectId()
+            ?? User.GetHomeObjectId()
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, "sub")
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, System.Security.Claims.ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+            return Forbid();
+
         var verse = await db.Verses
             .Where(v => v.UserId == userId && v.Id == id)
             .FirstOrDefaultAsync();
@@ -31,15 +39,30 @@ public class EditModel(MyVersesDbContext db) : PageModel
         if (!ModelState.IsValid)
             return Page();
 
-        var userId = User.GetObjectId() ?? string.Empty;
-        if (Verse.UserId != userId)
+        var userId =
+            User.GetObjectId()
+            ?? User.GetHomeObjectId()
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, "sub")
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, System.Security.Claims.ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
             return Forbid();
 
-        Verse.UpdatedAt = DateTime.UtcNow;
+        var verse = await db.Verses
+            .Where(v => v.UserId == userId && v.Id == Verse.Id)
+            .FirstOrDefaultAsync();
 
-        db.Verses.Update(Verse);
+        if (verse is null)
+            return NotFound();
+
+        verse.Title = Verse.Title;
+        verse.Content = Verse.Content;
+        verse.Author = Verse.Author;
+        verse.Category = Verse.Category;
+        verse.UpdatedAt = DateTime.UtcNow;
+
         await db.SaveChangesAsync();
 
-        return RedirectToPage("Details", new { id = Verse.Id });
+        return RedirectToPage("Details", new { id = verse.Id });
     }
 }
