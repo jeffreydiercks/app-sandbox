@@ -17,9 +17,17 @@ public class CreateModel(MyVersesDbContext db) : PageModel
     {
         if (!ModelState.IsValid)
             return Page();
+        var userId =
+            User.GetObjectId()
+            ?? User.GetHomeObjectId()
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, "sub")
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, System.Security.Claims.ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+            return Forbid();
 
         Verse.Id = Guid.NewGuid().ToString();
-        Verse.UserId = User.GetObjectId() ?? string.Empty;
+        Verse.UserId = userId;
         Verse.CreatedAt = DateTime.UtcNow;
         Verse.UpdatedAt = DateTime.UtcNow;
 
