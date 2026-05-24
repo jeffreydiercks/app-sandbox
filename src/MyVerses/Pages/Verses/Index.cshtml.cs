@@ -11,10 +11,18 @@ public class IndexModel(MyVersesDbContext db) : PageModel
     public List<Verse> Verses { get; private set; } = [];
     public VerseCategory? CategoryFilter { get; private set; }
 
-    public async Task OnGetAsync(VerseCategory? category)
+    public async Task<Microsoft.AspNetCore.Mvc.IActionResult> OnGetAsync(VerseCategory? category)
     {
         CategoryFilter = category;
-        var userId = User.GetObjectId() ?? string.Empty;
+
+        var userId =
+            User.GetObjectId()
+            ?? User.GetHomeObjectId()
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, "sub")
+            ?? System.Security.Claims.ClaimsPrincipalExtensions.FindFirstValue(User, System.Security.Claims.ClaimTypes.NameIdentifier);
+
+        if (string.IsNullOrWhiteSpace(userId))
+            return Forbid();
 
         var query = db.Verses.Where(v => v.UserId == userId);
 
@@ -24,5 +32,7 @@ public class IndexModel(MyVersesDbContext db) : PageModel
         Verses = await query
             .OrderByDescending(v => v.CreatedAt)
             .ToListAsync();
+
+        return Page();
     }
 }
