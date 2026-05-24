@@ -3,5 +3,6 @@
     <Project Path="src/AppHub/AppHub.csproj" />
     <Project Path="src/AppSandbox.AppHost/AppSandbox.AppHost.csproj" />
     <Project Path="src/AppSandbox.ServiceDefaults/AppSandbox.ServiceDefaults.csproj" />
+    <Project Path="src/MyVerses/MyVerses.csproj" />
   </Folder>
 </Solution>

@@ -1,0 +1,59 @@
+@page
+@model MyVerses.Pages.Verses.IndexModel
+@{
+    ViewData["Title"] = "Verses";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Verses</h1>
+    <a asp-page="Create" class="btn btn-primary">+ Add verse</a>
+</div>
+
+<form method="get" class="mb-3">
+    <div class="input-group" style="max-width: 280px;">
+        <label class="input-group-text" for="category">Category</label>
+        <select class="form-select" id="category" name="category" onchange="this.form.submit()">
+            <option value="" selected="@(Model.CategoryFilter == null)">All</option>
+            @foreach (var cat in Enum.GetValues<MyVerses.Models.VerseCategory>())
+            {
+                <option value="@cat" selected="@(Model.CategoryFilter == cat)">@cat</option>
+            }
+        </select>
+    </div>
+</form>
+
+@if (!Model.Verses.Any())
+{
+    <p class="text-muted">No verses found. <a asp-page="Create">Add one.</a></p>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Category</th>
+                    <th>Added</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var verse in Model.Verses)
+                {
+                    <tr>
+                        <td><a asp-page="Details" asp-route-id="@verse.Id" class="text-decoration-none fw-semibold">@verse.Title</a></td>
+                        <td class="text-muted">@(verse.Author ?? "—")</td>
+                        <td><span class="badge bg-secondary">@verse.Category</span></td>
+                        <td class="text-muted small">@verse.CreatedAt.ToString("MMM d, yyyy")</td>
+                        <td class="text-end">
+                            <a asp-page="Edit" asp-route-id="@verse.Id" class="btn btn-sm btn-outline-secondary me-1">Edit</a>
+                            <a asp-page="Delete" asp-route-id="@verse.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

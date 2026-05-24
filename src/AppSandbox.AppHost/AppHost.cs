@@ -1,5 +1,12 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-builder.AddProject<Projects.AppHub>("apphub");
+var cosmos = builder.AddAzureCosmosDB("cosmos")
+                    .RunAsEmulator();
+
+builder.AddProject<Projects.AppHub>("apphub", launchProfileName: "https");
+
+builder.AddProject<Projects.MyVerses>("myverses", launchProfileName: "https")
+       .WithReference(cosmos)
+       .WaitFor(cosmos);
 
 builder.Build().Run();
