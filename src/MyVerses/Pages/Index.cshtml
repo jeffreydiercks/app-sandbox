@@ -1,0 +1,62 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<h1 class="mb-4">My Verses</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-4">
+        <div class="card text-center border-primary">
+            <div class="card-body">
+                <h2 class="card-title display-6">@Model.QuoteCount</h2>
+                <p class="card-text text-muted">Quotes</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center border-secondary">
+            <div class="card-body">
+                <h2 class="card-title display-6">@Model.ExcerptCount</h2>
+                <p class="card-text text-muted">Excerpts</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center border-success">
+            <div class="card-body">
+                <h2 class="card-title display-6">@Model.PrayerCount</h2>
+                <p class="card-text text-muted">Prayers</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0">Recent</h5>
+    <a asp-page="/Verses/Index" class="btn btn-sm btn-outline-primary">View all</a>
+</div>
+
+@if (Model.RecentVerses.Count == 0)
+{
+    <p class="text-muted">No verses yet. <a asp-page="/Verses/Create">Add your first one.</a></p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var verse in Model.RecentVerses)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div>
+                    <a asp-page="/Verses/Details" asp-route-id="@verse.Id" class="fw-semibold text-decoration-none">@verse.Title</a>
+                    @if (!string.IsNullOrEmpty(verse.Author))
+                    {
+                        <small class="text-muted ms-1">— @verse.Author</small>
+                    }
+                </div>
+                <span class="badge bg-secondary rounded-pill">@verse.Category</span>
+            </li>
+        }
+    </ul>
+}
