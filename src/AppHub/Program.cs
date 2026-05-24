@@ -21,6 +21,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.MapDefaultEndpoints();
+
 app.MapStaticAssets();
 app.MapRazorPages()
    .WithStaticAssets();
