@@ -1,0 +1,36 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run AppSandbox (Aspire)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/AppSandbox.AppHost/bin/Debug/net10.0/AppSandbox.AppHost.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AppSandbox.AppHost",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "DOTNET_ENVIRONMENT": "Development"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    },
+    {
+      "name": "Run AppHub only",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/AppHub/bin/Debug/net10.0/AppHub.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}/src/AppHub",
+      "stopAtEntry": false,
+      "env": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "console": "integratedTerminal",
+      "justMyCode": true
+    }
+  ]
+}
