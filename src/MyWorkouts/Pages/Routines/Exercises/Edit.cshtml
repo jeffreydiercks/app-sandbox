@@ -1,0 +1,50 @@
+@page
+@model MyWorkouts.Pages.Routines.Exercises.EditModel
+@{
+    ViewData["Title"] = "Edit Exercise";
+}
+
+<h1 class="mb-4">Edit exercise</h1>
+
+<div class="card" style="max-width: 560px">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="Exercise!.Name" class="form-label"></label>
+                <input asp-for="Exercise!.Name" class="form-control" />
+                <span asp-validation-for="Exercise!.Name" class="text-danger small"></span>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-6">
+                    <label asp-for="Exercise!.DurationSeconds" class="form-label"></label>
+                    <input asp-for="Exercise!.DurationSeconds" type="number" class="form-control" min="5" max="3600" />
+                    <span asp-validation-for="Exercise!.DurationSeconds" class="text-danger small"></span>
+                </div>
+                <div class="col-6">
+                    <label asp-for="Exercise!.RestSeconds" class="form-label"></label>
+                    <input asp-for="Exercise!.RestSeconds" type="number" class="form-control" min="0" max="600" />
+                    <span asp-validation-for="Exercise!.RestSeconds" class="text-danger small"></span>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Exercise!.Order" class="form-label"></label>
+                <input asp-for="Exercise!.Order" type="number" class="form-control" min="1" />
+                <span asp-validation-for="Exercise!.Order" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Exercise!.Notes" class="form-label"></label>
+                <textarea asp-for="Exercise!.Notes" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="/Routines/Details" asp-route-id="@Model.RoutineId" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

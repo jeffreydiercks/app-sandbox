@@ -10,7 +10,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AppHub\AppHub.csproj" />
+    <ProjectReference Include="..\MyGuitar\MyGuitar.csproj" />
+    <ProjectReference Include="..\MyLists\MyLists.csproj" />
+    <ProjectReference Include="..\MyReader\MyReader.csproj" />
     <ProjectReference Include="..\MyVerses\MyVerses.csproj" />
+    <ProjectReference Include="..\MyWorkouts\MyWorkouts.csproj" />
     <ProjectReference Include="..\AppSandbox.ServiceDefaults\AppSandbox.ServiceDefaults.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 

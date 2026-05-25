@@ -1,0 +1,38 @@
+@page "{id}"
+@model MyWorkouts.Pages.Routines.EditModel
+@{
+    ViewData["Title"] = "Edit Routine";
+}
+
+<h1 class="mb-4">Edit routine</h1>
+
+<div class="card" style="max-width: 560px">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Routine!.Id" />
+            <div class="mb-3">
+                <label asp-for="Routine!.Name" class="form-label"></label>
+                <input asp-for="Routine!.Name" class="form-control" />
+                <span asp-validation-for="Routine!.Name" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Routine!.Description" class="form-label"></label>
+                <textarea asp-for="Routine!.Description" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Routine!.EstimatedMinutes" class="form-label"></label>
+                <input asp-for="Routine!.EstimatedMinutes" type="number" class="form-control" min="1" max="480" />
+                <span asp-validation-for="Routine!.EstimatedMinutes" class="text-danger small"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="Details" asp-route-id="@Model.Routine!.Id" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

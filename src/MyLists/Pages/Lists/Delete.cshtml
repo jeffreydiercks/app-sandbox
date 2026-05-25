@@ -1,0 +1,26 @@
+@page "{id}"
+@model MyLists.Pages.Lists.DeleteModel
+@{
+    ViewData["Title"] = "Delete List";
+}
+
+<h1 class="mb-4">Delete list</h1>
+
+@if (Model.List is null)
+{
+    <p class="text-danger">List not found.</p>
+}
+else
+{
+    <div class="card border-danger mb-4" style="max-width: 480px">
+        <div class="card-body">
+            <p>Delete <strong>@Model.List.Name</strong> and all its items?</p>
+            <p class="text-muted small">This cannot be undone.</p>
+        </div>
+    </div>
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.List.Id" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+}

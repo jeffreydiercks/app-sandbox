@@ -1,0 +1,83 @@
+@page "{id}"
+@model MyWorkouts.Pages.Routines.RunModel
+@{
+    ViewData["Title"] = "Workout";
+    Layout = "_Layout";
+}
+
+@if (Model.Routine is null)
+{
+    <p class="text-danger">Routine not found.</p>
+}
+else if (!Model.Routine.Exercises.Any())
+{
+    <div class="text-center py-5">
+        <p class="text-muted">This routine has no exercises.</p>
+        <a asp-page="Details" asp-route-id="@Model.Routine.Id" class="btn btn-outline-secondary">← Back</a>
+    </div>
+}
+else
+{
+    <div class="text-center py-3">
+        <h1 class="mb-1">@Model.Routine.Name</h1>
+        <p class="text-muted">@Model.Routine.Exercises.Count exercise@(Model.Routine.Exercises.Count == 1 ? "" : "s") · @Model.Routine.EstimatedMinutes min</p>
+    </div>
+
+    <!-- Timer UI -->
+    <div class="card mx-auto mb-4" style="max-width: 480px">
+        <div class="card-body text-center py-4">
+            <div id="exerciseName" class="fs-3 fw-bold mb-1">—</div>
+            <div id="exerciseNotes" class="text-muted small mb-3"></div>
+            <div id="phase" class="badge bg-secondary mb-2" style="font-size:1rem">Ready</div>
+            <div id="timerDisplay" class="display-1 fw-bold my-3" style="font-variant-numeric: tabular-nums">—</div>
+            <div id="progress" class="text-muted small mb-3">Exercise 0 of @Model.Routine.Exercises.Count</div>
+            <div class="d-flex justify-content-center gap-3">
+                <button id="btnStart" class="btn btn-primary btn-lg px-4">▶ Start</button>
+                <button id="btnPause" class="btn btn-outline-secondary btn-lg px-4 d-none">⏸ Pause</button>
+                <button id="btnResume" class="btn btn-success btn-lg px-4 d-none">▶ Resume</button>
+                <button id="btnStop" class="btn btn-outline-danger btn-lg px-4 d-none">■ Stop</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-4">
+        <a asp-page="Details" asp-route-id="@Model.Routine.Id" class="btn btn-outline-secondary btn-sm">← Back to routine</a>
+    </div>
+
+    <!-- Exercise list overview -->
+    <div class="list-group mx-auto" style="max-width: 480px">
+        @foreach (var ex in Model.Routine.Exercises.OrderBy(e => e.Order))
+        {
+            <div class="list-group-item d-flex justify-content-between" id="ex-@ex.Id">
+                <span>@ex.Order. @ex.Name</span>
+                <span class="text-muted small">@ex.DurationSeconds s + @ex.RestSeconds s rest</span>
+            </div>
+        }
+    </div>
+}
+
+@section Scripts {
+    <script>
+        var _exercises = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+            Model.Routine?.Exercises
+                .OrderBy(e => e.Order)
+                .Select(e => new { e.Id, e.Name, e.DurationSeconds, e.RestSeconds, e.Order, e.Notes })
+                .ToList() ?? []
+        ));
+    </script>
+    <script src="~/js/workout-timer.js" asp-append-version="true"></script>
+    <script>
+        WorkoutTimer.init(_exercises, {
+            name: document.getElementById('exerciseName'),
+            notes: document.getElementById('exerciseNotes'),
+            phase: document.getElementById('phase'),
+            display: document.getElementById('timerDisplay'),
+            progress: document.getElementById('progress'),
+            btnStart: document.getElementById('btnStart'),
+            btnPause: document.getElementById('btnPause'),
+            btnResume: document.getElementById('btnResume'),
+            btnStop: document.getElementById('btnStop'),
+            listItems: id => document.getElementById('ex-' + id)
+        });
+    </script>
+}

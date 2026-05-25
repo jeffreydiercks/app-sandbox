@@ -1,0 +1,26 @@
+@page "{id}"
+@model MyGuitar.Pages.Lessons.DeleteModel
+@{
+    ViewData["Title"] = "Delete Lesson";
+}
+
+<h1 class="mb-4">Delete lesson</h1>
+
+@if (Model.Lesson is null)
+{
+    <p class="text-danger">Lesson not found.</p>
+}
+else
+{
+    <div class="card border-danger mb-4" style="max-width: 460px">
+        <div class="card-body">
+            <p>Are you sure you want to delete <strong>@Model.Lesson.Title</strong>?</p>
+            <p class="text-muted small">This cannot be undone.</p>
+        </div>
+    </div>
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.Lesson.Id" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-page="Details" asp-route-id="@Model.Lesson.Id" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+}

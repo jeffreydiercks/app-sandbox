@@ -14,22 +14,34 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container">
-@{ var appHubUrl = _config["AppUrls:AppHub"]?.Trim(); }
-                <a class="navbar-brand" href="@(!string.IsNullOrWhiteSpace(appHubUrl) ? appHubUrl : "/")">AppHub</a>
+                @{
+                    var appHubUrl = _config["AppUrls:AppHub"]?.Trim();
+                    var appUrls = _config.GetSection("AppUrls").GetChildren()
+                        .Where(x => !string.IsNullOrWhiteSpace(x.Value))
+                        .ToList();
+                }
+                <div class="dropdown">
+                    <a class="navbar-brand dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">AppHub</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="@(!string.IsNullOrWhiteSpace(appHubUrl) ? appHubUrl : "/")">AppHub Home</a></li>
+                        @if (appUrls.Any())
+                        {
+                            <li><hr class="dropdown-divider"></li>
+                            @foreach (var app in appUrls)
+                            {
+                                <li><a class="dropdown-item" href="@app.Value?.Trim()">@app.Key</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                MyVerses
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="" asp-page="/Index">Home</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-page="/Verses/Index">Verses</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Verses/Index">Verses</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />

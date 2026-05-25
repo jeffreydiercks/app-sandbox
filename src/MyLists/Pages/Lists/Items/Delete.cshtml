@@ -1,0 +1,27 @@
+@page
+@model MyLists.Pages.Lists.Items.DeleteModel
+@{
+    ViewData["Title"] = "Delete Item";
+}
+
+<h1 class="mb-4">Delete item</h1>
+
+@if (Model.Item is null)
+{
+    <p class="text-danger">Item not found.</p>
+}
+else
+{
+    <div class="card border-danger mb-4" style="max-width: 480px">
+        <div class="card-body">
+            <p>Delete <strong>@Model.Item.Title</strong>?</p>
+            <p class="text-muted small">This cannot be undone.</p>
+        </div>
+    </div>
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.Item.Id" />
+        <input type="hidden" name="listId" value="@Model.Item.ListId" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-page="/Lists/View" asp-route-id="@Model.Item.ListId" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+}

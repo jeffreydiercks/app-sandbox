@@ -1,0 +1,33 @@
+@page
+@model MyReader.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Reader</h1>
+    <a asp-page="/Feeds/Create" class="btn btn-sm btn-outline-primary">+ Add feed</a>
+</div>
+
+@if (Model.Feeds.Any())
+{
+    <div class="list-group">
+        @foreach (var feed in Model.Feeds)
+        {
+            <a asp-page="/Feeds/View" asp-route-id="@feed.Id"
+               class="list-group-item list-group-item-action">
+                <div class="fw-semibold">@feed.Title</div>
+                <small class="text-muted">@feed.Url</small>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body text-center py-5 text-muted">
+            <p class="mb-2">No feeds yet.</p>
+            <a asp-page="/Feeds/Create" class="btn btn-primary">Add your first feed</a>
+        </div>
+    </div>
+}

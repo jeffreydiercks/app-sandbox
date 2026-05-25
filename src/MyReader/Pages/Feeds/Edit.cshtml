@@ -1,0 +1,34 @@
+@page "{id}"
+@model MyReader.Pages.Feeds.EditModel
+@{
+    ViewData["Title"] = "Edit Feed";
+}
+
+<h1 class="mb-4">Edit feed</h1>
+
+<div class="card" style="max-width: 560px">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Feed!.Id" />
+            <div class="mb-3">
+                <label asp-for="Feed!.Title" class="form-label"></label>
+                <input asp-for="Feed!.Title" class="form-control" />
+                <span asp-validation-for="Feed!.Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Feed!.Url" class="form-label">RSS / Atom URL</label>
+                <input asp-for="Feed!.Url" type="url" class="form-control" />
+                <span asp-validation-for="Feed!.Url" class="text-danger small"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

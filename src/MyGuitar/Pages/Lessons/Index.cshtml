@@ -1,0 +1,79 @@
+@page
+@model MyGuitar.Pages.Lessons.IndexModel
+@{
+    ViewData["Title"] = "Lessons";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Lessons</h1>
+    <a asp-page="Create" class="btn btn-primary">+ Add lesson</a>
+</div>
+
+<div class="row g-2 mb-3">
+    <div class="col-md-4">
+        <select id="filterStatus" class="form-select form-select-sm" onchange="applyFilter()">
+            <option value="">All statuses</option>
+            <option value="NotStarted">Not Started</option>
+            <option value="InProgress">In Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </div>
+    <div class="col-md-4">
+        <input id="filterStage" type="text" class="form-control form-control-sm" placeholder="Filter by stage…" oninput="applyFilter()" />
+    </div>
+</div>
+
+@if (Model.Lessons.Any())
+{
+    <div class="table-responsive">
+        <table class="table table-hover" id="lessonsTable">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Stage</th>
+                    <th>Status</th>
+                    <th>Last practiced</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var lesson in Model.Lessons)
+                {
+                    <tr data-status="@lesson.Status" data-stage="@lesson.Stage?.ToLowerInvariant()">
+                        <td>@lesson.Title</td>
+                        <td><span class="text-muted small">@lesson.Stage</span></td>
+                        <td>
+                            <span class="badge @(lesson.Status == MyGuitar.Models.LessonStatus.Completed ? "bg-success" : lesson.Status == MyGuitar.Models.LessonStatus.InProgress ? "bg-primary" : "bg-secondary")">
+                                @lesson.Status
+                            </span>
+                        </td>
+                        <td><small class="text-muted">@(lesson.LastPracticedAt?.ToString("d MMM yyyy") ?? "—")</small></td>
+                        <td class="text-end">
+                            <a asp-page="Details" asp-route-id="@lesson.Id" class="btn btn-sm btn-outline-secondary me-1">View</a>
+                            <a asp-page="Edit" asp-route-id="@lesson.Id" class="btn btn-sm btn-outline-primary me-1">Edit</a>
+                            <a asp-page="Delete" asp-route-id="@lesson.Id" class="btn btn-sm btn-outline-danger">Del</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <div class="text-center text-muted py-5">No lessons found. <a asp-page="Create">Add one!</a></div>
+}
+
+@section Scripts {
+    <script>
+        function applyFilter() {
+            const status = document.getElementById('filterStatus').value;
+            const stage = document.getElementById('filterStage').value.toLowerCase();
+            document.querySelectorAll('#lessonsTable tbody tr').forEach(row => {
+                const matchStatus = !status || row.dataset.status === status;
+                const matchStage = !stage || (row.dataset.stage || '').includes(stage);
+                row.style.display = (matchStatus && matchStage) ? '' : 'none';
+            });
+        }
+    </script>
+}

@@ -1,0 +1,67 @@
+@page
+@model MyGuitar.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Guitar</h1>
+    <a asp-page="/Lessons/Index" class="btn btn-sm btn-outline-primary">View lessons</a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body py-4">
+                <div class="display-6 fw-bold text-primary">@Model.TotalLessons</div>
+                <div class="text-muted small mt-1">Total lessons</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body py-4">
+                <div class="display-6 fw-bold" style="color: var(--bs-info)">@Model.InProgressCount</div>
+                <div class="text-muted small mt-1">In progress</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="card text-center">
+            <div class="card-body py-4">
+                <div class="display-6 fw-bold text-success">@Model.CompletedCount</div>
+                <div class="text-muted small mt-1">Completed</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.RecentLessons.Any())
+{
+    <h5 class="section-title">Recently practiced</h5>
+    <div class="list-group mb-3">
+        @foreach (var lesson in Model.RecentLessons)
+        {
+            <a asp-page="/Lessons/Details" asp-route-id="@lesson.Id"
+               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <div>
+                    <div class="fw-semibold">@lesson.Title</div>
+                    @if (!string.IsNullOrWhiteSpace(lesson.Stage))
+                    {
+                        <small class="text-muted">@lesson.Stage</small>
+                    }
+                </div>
+                <span class="badge bg-secondary">@lesson.Status</span>
+            </a>
+        }
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body text-center py-5 text-muted">
+            <p class="mb-2">No lessons yet.</p>
+            <a asp-page="/Lessons/Create" class="btn btn-primary">Add your first lesson</a>
+        </div>
+    </div>
+}

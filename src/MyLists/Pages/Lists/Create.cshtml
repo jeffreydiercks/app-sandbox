@@ -1,0 +1,28 @@
+@page
+@model MyLists.Pages.Lists.CreateModel
+@{
+    ViewData["Title"] = "New List";
+}
+
+<h1 class="mb-4">New list</h1>
+
+<div class="card" style="max-width: 480px">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div class="mb-3">
+                <label asp-for="List.Name" class="form-label"></label>
+                <input asp-for="List.Name" class="form-control" />
+                <span asp-validation-for="List.Name" class="text-danger small"></span>
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,27 @@
+@page
+@model MyWorkouts.Pages.Routines.Exercises.DeleteModel
+@{
+    ViewData["Title"] = "Delete Exercise";
+}
+
+<h1 class="mb-4">Delete exercise</h1>
+
+@if (Model.ExerciseName is null)
+{
+    <p class="text-danger">Exercise not found.</p>
+}
+else
+{
+    <div class="card border-danger mb-4" style="max-width: 480px">
+        <div class="card-body">
+            <p>Delete exercise <strong>@Model.ExerciseName</strong>?</p>
+            <p class="text-muted small">This cannot be undone.</p>
+        </div>
+    </div>
+    <form method="post">
+        <input type="hidden" name="exerciseId" value="@Model.ExerciseId" />
+        <input type="hidden" name="routineId" value="@Model.RoutineId" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-page="/Routines/Details" asp-route-id="@Model.RoutineId" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+}
