@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using MyWorkouts;
 using MyWorkouts.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,8 @@ if (app.Environment.IsDevelopment())
         }
     }
 }
+
+await RoutineSeeder.SeedSystemRoutinesAsync(app.Services);
 
 if (!app.Environment.IsDevelopment())
 {
