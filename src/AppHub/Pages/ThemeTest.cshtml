@@ -1,0 +1,503 @@
+@page
+@model ThemeTestModel
+@{
+    ViewData["Title"] = "Theme Test";
+}
+
+<div class="container-fluid px-0">
+
+    <!-- ========== PAGE HEADER ========== -->
+    <div class="py-4 mb-4 border-bottom">
+        <h1 class="display-5 fw-bold">Theme Test</h1>
+        <p class="text-body-secondary">A showcase of Bootstrap components styled with the current theme.</p>
+    </div>
+
+    <!-- ========== TYPOGRAPHY ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Typography</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h1>Heading 1</h1>
+                <h2>Heading 2</h2>
+                <h3>Heading 3</h3>
+                <h4>Heading 4</h4>
+                <h5>Heading 5</h5>
+                <h6>Heading 6</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="lead">Lead paragraph — slightly larger body text for introductions.</p>
+                <p>Regular body text. Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis parturient montes.</p>
+                <p><small class="text-body-secondary">Small / fine print text.</small></p>
+                <p><strong>Bold text.</strong> <em>Italic text.</em> <a href="#">A link.</a></p>
+                <blockquote class="blockquote border-start border-primary border-3 ps-3">
+                    <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</p>
+                    <footer class="blockquote-footer">Someone famous</footer>
+                </blockquote>
+            </div>
+        </div>
+        <div class="mt-3">
+            <p class="text-primary">.text-primary</p>
+            <p class="text-secondary">.text-secondary</p>
+            <p class="text-success">.text-success</p>
+            <p class="text-danger">.text-danger</p>
+            <p class="text-warning">.text-warning</p>
+            <p class="text-info">.text-info</p>
+            <p class="text-body-secondary">.text-body-secondary</p>
+        </div>
+    </section>
+
+    <!-- ========== BUTTONS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Buttons</h2>
+        <div class="mb-3 d-flex flex-wrap gap-2">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+            <button class="btn btn-success">Success</button>
+            <button class="btn btn-info">Info</button>
+            <button class="btn btn-warning">Warning</button>
+            <button class="btn btn-danger">Danger</button>
+            <button class="btn btn-light">Light</button>
+            <button class="btn btn-dark">Dark</button>
+            <button class="btn btn-link">Link</button>
+        </div>
+        <div class="mb-3 d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-primary">Primary</button>
+            <button class="btn btn-outline-secondary">Secondary</button>
+            <button class="btn btn-outline-success">Success</button>
+            <button class="btn btn-outline-info">Info</button>
+            <button class="btn btn-outline-warning">Warning</button>
+            <button class="btn btn-outline-danger">Danger</button>
+            <button class="btn btn-outline-light">Light</button>
+            <button class="btn btn-outline-dark">Dark</button>
+        </div>
+        <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
+            <button class="btn btn-primary btn-lg">Large</button>
+            <button class="btn btn-primary">Default</button>
+            <button class="btn btn-primary btn-sm">Small</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-primary d-block w-100 mb-2">Block button</button>
+        </div>
+        <div class="mb-3 d-flex gap-2">
+            <div class="btn-group">
+                <button class="btn btn-primary">Left</button>
+                <button class="btn btn-primary">Middle</button>
+                <button class="btn btn-primary">Right</button>
+            </div>
+            <div class="btn-group">
+                <input type="checkbox" class="btn-check" id="btncheck1">
+                <label class="btn btn-outline-primary" for="btncheck1">Checkbox 1</label>
+                <input type="checkbox" class="btn-check" id="btncheck2">
+                <label class="btn btn-outline-primary" for="btncheck2">Checkbox 2</label>
+                <input type="checkbox" class="btn-check" id="btncheck3">
+                <label class="btn btn-outline-primary" for="btncheck3">Checkbox 3</label>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ALERTS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Alerts</h2>
+        <div class="alert alert-primary">A simple <strong>primary</strong> alert.</div>
+        <div class="alert alert-secondary">A simple <strong>secondary</strong> alert.</div>
+        <div class="alert alert-success">A simple <strong>success</strong> alert.</div>
+        <div class="alert alert-danger">A simple <strong>danger</strong> alert.</div>
+        <div class="alert alert-warning">A simple <strong>warning</strong> alert.</div>
+        <div class="alert alert-info">A simple <strong>info</strong> alert.</div>
+        <div class="alert alert-light">A simple <strong>light</strong> alert.</div>
+        <div class="alert alert-dark">A simple <strong>dark</strong> alert.</div>
+    </section>
+
+    <!-- ========== BADGES ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Badges</h2>
+        <div class="mb-3 d-flex flex-wrap gap-2">
+            <span class="badge bg-primary">Primary</span>
+            <span class="badge bg-secondary">Secondary</span>
+            <span class="badge bg-success">Success</span>
+            <span class="badge bg-danger">Danger</span>
+            <span class="badge bg-warning text-dark">Warning</span>
+            <span class="badge bg-info text-dark">Info</span>
+            <span class="badge bg-light text-dark">Light</span>
+            <span class="badge bg-dark">Dark</span>
+        </div>
+        <div class="mb-3 d-flex flex-wrap gap-2">
+            <span class="badge rounded-pill bg-primary">Primary</span>
+            <span class="badge rounded-pill bg-secondary">Secondary</span>
+            <span class="badge rounded-pill bg-success">Success</span>
+            <span class="badge rounded-pill bg-danger">Danger</span>
+            <span class="badge rounded-pill bg-warning text-dark">Warning</span>
+            <span class="badge rounded-pill bg-info text-dark">Info</span>
+        </div>
+    </section>
+
+    <!-- ========== CARDS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Cards</h2>
+        <div class="row g-3">
+            <div class="col-sm-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Default card</h5>
+                        <p class="card-text text-body-secondary">Quick example text for the card body.</p>
+                        <a href="#" class="btn btn-primary btn-sm">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-primary">
+                    <div class="card-header">Primary border</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Primary card title</h5>
+                        <p class="card-text text-body-secondary">Quick example text for the card body.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card text-bg-primary">
+                    <div class="card-body">
+                        <h5 class="card-title">Primary bg card</h5>
+                        <p class="card-text">Quick example text for the card body.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-success">
+                    <div class="card-header">Success border</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Success card title</h5>
+                        <p class="card-text text-body-secondary">Quick example text for the card body.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-danger">
+                    <div class="card-header">Danger border</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Danger card title</h5>
+                        <p class="card-text text-body-secondary">Quick example text for the card body.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="card border-warning">
+                    <div class="card-header">Warning border</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-warning">Warning card title</h5>
+                        <p class="card-text text-body-secondary">Quick example text for the card body.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LIST GROUPS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">List Groups</h2>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Cras justo odio
+                        <span class="badge bg-primary rounded-pill">14</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center active">
+                        Dapibus ac facilisis
+                        <span class="badge bg-primary rounded-pill">2</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        Morbi leo risus
+                        <span class="badge bg-primary rounded-pill">1</span>
+                    </li>
+                    <li class="list-group-item list-group-item-primary">Primary item</li>
+                    <li class="list-group-item list-group-item-success">Success item</li>
+                    <li class="list-group-item list-group-item-danger">Danger item</li>
+                </ul>
+            </div>
+            <div class="col-md-8">
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Active list group item</h6>
+                            <small>3 days ago</small>
+                        </div>
+                        <p class="mb-1 small">Donec id elit non mi porta gravida at eget metus.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Second list group item</h6>
+                            <small class="text-body-secondary">3 days ago</small>
+                        </div>
+                        <p class="mb-1 small">Donec id elit non mi porta gravida at eget metus.</p>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Third list group item</h6>
+                            <small class="text-body-secondary">3 days ago</small>
+                        </div>
+                        <p class="mb-1 small">Donec id elit non mi porta gravida at eget metus.</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TABLES ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Tables</h2>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr><th>#</th><th>Column 1</th><th>Column 2</th><th>Column 3</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="table-active"><td>Active</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr><td>Default</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-primary"><td>Primary</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-secondary"><td>Secondary</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-success"><td>Success</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-danger"><td>Danger</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-warning"><td>Warning</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                    <tr class="table-info"><td>Info</td><td>Column</td><td>Column</td><td>Column</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr><th>Striped</th><th>Bordered</th><th>Dark header</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Row 1</td><td>Data</td><td>Data</td></tr>
+                    <tr><td>Row 2</td><td>Data</td><td>Data</td></tr>
+                    <tr><td>Row 3</td><td>Data</td><td>Data</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- ========== FORMS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Forms</h2>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Email address</label>
+                    <input type="email" class="form-control" placeholder="email@example.com">
+                    <div class="form-text">We'll never share your email.</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-control" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Select</label>
+                    <select class="form-select">
+                        <option>Option 1</option>
+                        <option>Option 2</option>
+                        <option>Option 3</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Textarea</label>
+                    <textarea class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="check1">
+                    <label class="form-check-label" for="check1">Check me out</label>
+                </div>
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="radios" id="radio1">
+                        <label class="form-check-label" for="radio1">Option one</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" class="form-check-input" name="radios" id="radio2">
+                        <label class="form-check-label" for="radio2">Option two</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label class="form-label">Valid input</label>
+                    <input type="text" class="form-control is-valid" value="Correct value">
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Invalid input</label>
+                    <input type="text" class="form-control is-invalid" value="Wrong value">
+                    <div class="invalid-feedback">That username's taken. Try another?</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Large input</label>
+                    <input type="text" class="form-control form-control-lg" placeholder="Large input">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Small input</label>
+                    <input type="text" class="form-control form-control-sm" placeholder="Small input">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Input group</label>
+                    <div class="input-group">
+                        <span class="input-group-text">$</span>
+                        <input type="number" class="form-control" placeholder="Amount">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Floating label</label>
+                    <div class="form-floating">
+                        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+                        <label for="floatingInput">Email address</label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Range</label>
+                    <input type="range" class="form-range">
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="switchCheck">
+                    <label class="form-check-label" for="switchCheck">Toggle switch</label>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PROGRESS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Progress</h2>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar" style="width: 25%"></div>
+        </div>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar bg-success" style="width: 50%"></div>
+        </div>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar bg-danger" style="width: 75%"></div>
+        </div>
+        <div class="progress mb-2" style="height: 8px;">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 60%"></div>
+        </div>
+    </section>
+
+    <!-- ========== NAVS & PAGINATION ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Navs &amp; Pagination</h2>
+        <ul class="nav nav-tabs mb-3">
+            <li class="nav-item"><a class="nav-link active" href="#">Active</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link disabled">Disabled</a></li>
+        </ul>
+        <ul class="nav nav-pills mb-3">
+            <li class="nav-item"><a class="nav-link active" href="#">Active</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item"><a class="nav-link disabled">Disabled</a></li>
+        </ul>
+        <nav>
+            <ol class="breadcrumb mb-3">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Library</a></li>
+                <li class="breadcrumb-item active">Data</li>
+            </ol>
+        </nav>
+        <nav>
+            <ul class="pagination mb-0">
+                <li class="page-item disabled"><a class="page-link" href="#">«</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">»</a></li>
+            </ul>
+        </nav>
+    </section>
+
+    <!-- ========== ACCORDION ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Accordion</h2>
+        <div class="accordion" id="themeAccordion">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#acc1">
+                        Accordion Item #1
+                    </button>
+                </h2>
+                <div id="acc1" class="accordion-collapse collapse show" data-bs-parent="#themeAccordion">
+                    <div class="accordion-body">This is the first item's accordion body.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc2">
+                        Accordion Item #2
+                    </button>
+                </h2>
+                <div id="acc2" class="accordion-collapse collapse" data-bs-parent="#themeAccordion">
+                    <div class="accordion-body">This is the second item's accordion body.</div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#acc3">
+                        Accordion Item #3
+                    </button>
+                </h2>
+                <div id="acc3" class="accordion-collapse collapse" data-bs-parent="#themeAccordion">
+                    <div class="accordion-body">This is the third item's accordion body.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NAVBARS ========== -->
+    <section class="mb-5">
+        <h2 class="section-title">Navbars</h2>
+        <nav class="navbar navbar-expand-sm navbar-dark mb-3 rounded px-3" style="background-color: #2a2a2a;">
+            <a class="navbar-brand text-primary fw-bold" href="#">Brand</a>
+            <div class="navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                </ul>
+                <button class="btn btn-primary btn-sm">Sign Up</button>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3 rounded px-3">
+            <a class="navbar-brand fw-bold" href="#">Brand</a>
+            <div class="navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                </ul>
+            </div>
+        </nav>
+        <nav class="navbar navbar-expand-sm navbar-light bg-light mb-3 rounded px-3">
+            <a class="navbar-brand fw-bold" href="#">Brand</a>
+            <div class="navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Features</a></li>
+                </ul>
+            </div>
+        </nav>
+    </section>
+
+</div>
+
+@section Scripts {
+<style>
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid var(--bs-primary);
+        display: inline-block;
+    }
+</style>
+}
+

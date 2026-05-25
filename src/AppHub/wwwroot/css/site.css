@@ -17,10 +17,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
-}
-
 .form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
@@ -28,4 +24,171 @@ body {
 
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
+}
+
+/* ===================================================
+   Dark theme — Bootstrap 5.3 CSS variable overrides
+   Sadakat-inspired: near-black body, coral-orange accent
+   To switch to green: replace #bf6830 → #22c55e
+                       replace 191, 104, 48 → 34, 197, 94
+   =================================================== */
+[data-bs-theme="dark"] {
+  --bs-primary:             #bf6830;
+  --bs-primary-rgb:         191, 104, 48;
+  --bs-body-bg:             #111111;
+  --bs-body-color:          #e8e8e8;
+  --bs-secondary-color:     #999999;
+  --bs-link-color:          #bf6830;
+  --bs-link-color-rgb:      191, 104, 48;
+  --bs-link-hover-color:    #d47b44;
+  --bs-link-hover-color-rgb:212, 123, 68;
+  --bs-border-color:        #2a2a2a;
+  --bs-card-bg:             #1c1c1c;
+  --bs-card-border-color:   #2a2a2a;
+  --bs-body-font-family:    system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  /* Primary subtle — drives alert-primary, table-primary, list-group-item-primary */
+  --bs-primary-text-emphasis:   #d4a070;
+  --bs-primary-bg-subtle:       #281505;
+  --bs-primary-border-subtle:   #6b3810;
+  /* Info — muted steel blue instead of vivid cyan */
+  --bs-info:                    #5b9bba;
+  --bs-info-rgb:                91, 155, 186;
+  --bs-info-text-emphasis:      #8ec5de;
+  --bs-info-bg-subtle:          #0e2430;
+  --bs-info-border-subtle:      #2a5870;
+}
+
+/* Bootstrap hard-codes component variables (e.g. --bs-btn-bg: #0d6efd) that
+   don't inherit from --bs-primary. Override them here — site.css is non-scoped
+   so these apply everywhere, unlike _Layout.cshtml.css which is scoped. */
+[data-bs-theme="dark"] .btn-primary {
+  --bs-btn-bg:                   #bf6830;
+  --bs-btn-border-color:         #bf6830;
+  --bs-btn-hover-bg:             #aa5c29;
+  --bs-btn-hover-border-color:   #aa5c29;
+  --bs-btn-active-bg:            #955022;
+  --bs-btn-active-border-color:  #955022;
+  --bs-btn-disabled-bg:          #bf6830;
+  --bs-btn-disabled-border-color:#bf6830;
+  --bs-btn-focus-shadow-rgb:     191, 104, 48;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+  --bs-btn-color:                #bf6830;
+  --bs-btn-border-color:         #bf6830;
+  --bs-btn-hover-bg:             #bf6830;
+  --bs-btn-hover-border-color:   #bf6830;
+  --bs-btn-hover-color:          #fff;
+  --bs-btn-active-bg:            #aa5c29;
+  --bs-btn-active-border-color:  #aa5c29;
+  --bs-btn-active-color:         #fff;
+  --bs-btn-focus-shadow-rgb:     191, 104, 48;
+}
+
+[data-bs-theme="dark"] .nav-pills .nav-link.active {
+  background-color: #bf6830;
+}
+
+[data-bs-theme="dark"] .page-item.active .page-link {
+  background-color: #bf6830;
+  border-color:     #bf6830;
+}
+
+[data-bs-theme="dark"] .page-link {
+  color: #bf6830;
+}
+
+[data-bs-theme="dark"] .list-group-item.active {
+  background-color: #bf6830;
+  border-color:     #bf6830;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+  border-color: #bf6830;
+  box-shadow: 0 0 0 0.25rem rgba(191, 104, 48, 0.25);
+}
+
+[data-bs-theme="dark"] .form-check-input:checked {
+  background-color: #bf6830;
+  border-color:     #bf6830;
+}
+
+[data-bs-theme="dark"] .accordion-button:not(.collapsed) {
+  color: #bf6830;
+  box-shadow: inset 0 -1px 0 rgba(191, 104, 48, 0.25);
+}
+
+/* Progress bar default (no .bg-* class uses --bs-progress-bar-bg) */
+[data-bs-theme="dark"] .progress {
+  --bs-progress-bar-bg: #bf6830;
+}
+
+/* btn-info — Bootstrap hardcodes --bs-btn-bg: #0dcaf0 */
+[data-bs-theme="dark"] .btn-info {
+  --bs-btn-bg:                   #5b9bba;
+  --bs-btn-border-color:         #5b9bba;
+  --bs-btn-hover-bg:             #4e8aa6;
+  --bs-btn-hover-border-color:   #4e8aa6;
+  --bs-btn-active-bg:            #427892;
+  --bs-btn-active-border-color:  #427892;
+  --bs-btn-color:                #fff;
+  --bs-btn-hover-color:          #fff;
+  --bs-btn-active-color:         #fff;
+  --bs-btn-disabled-bg:          #5b9bba;
+  --bs-btn-disabled-border-color:#5b9bba;
+  --bs-btn-focus-shadow-rgb:     91, 155, 186;
+}
+
+[data-bs-theme="dark"] .btn-outline-info {
+  --bs-btn-color:                #5b9bba;
+  --bs-btn-border-color:         #5b9bba;
+  --bs-btn-hover-bg:             #5b9bba;
+  --bs-btn-hover-border-color:   #5b9bba;
+  --bs-btn-hover-color:          #fff;
+  --bs-btn-active-bg:            #4e8aa6;
+  --bs-btn-active-border-color:  #4e8aa6;
+  --bs-btn-active-color:         #fff;
+  --bs-btn-focus-shadow-rgb:     91, 155, 186;
+}
+
+/* Breadcrumb links */
+[data-bs-theme="dark"] .breadcrumb-item a {
+  color: #bf6830;
+}
+[data-bs-theme="dark"] .breadcrumb-item a:hover {
+  color: #d47b44;
+}
+
+/* Table contextual rows — Bootstrap compiles these as hardcoded pastels;
+   override them to subtle dark tints for dark mode */
+[data-bs-theme="dark"] .table-primary {
+  --bs-table-color:        #d4a070;
+  --bs-table-bg:           #281505;
+  --bs-table-border-color: #4a2810;
+}
+[data-bs-theme="dark"] .table-secondary {
+  --bs-table-color:        #b0b7bf;
+  --bs-table-bg:           #1e2226;
+  --bs-table-border-color: #373d42;
+}
+[data-bs-theme="dark"] .table-success {
+  --bs-table-color:        #75b798;
+  --bs-table-bg:           #052a14;
+  --bs-table-border-color: #1a5130;
+}
+[data-bs-theme="dark"] .table-danger {
+  --bs-table-color:        #ea868f;
+  --bs-table-bg:           #2a0808;
+  --bs-table-border-color: #842029;
+}
+[data-bs-theme="dark"] .table-warning {
+  --bs-table-color:        #ffda6a;
+  --bs-table-bg:           #2a1e00;
+  --bs-table-border-color: #664d03;
+}
+[data-bs-theme="dark"] .table-info {
+  --bs-table-color:        #8ec5de;
+  --bs-table-bg:           #0e1e2a;
+  --bs-table-border-color: #2a4a5c;
 }
