@@ -1,62 +1,79 @@
 ﻿@page
 @model IndexModel
+@using MyVerses.Models
 @{
     ViewData["Title"] = "Home";
+    var categoryOrder = new[] { VerseCategory.Prayer, VerseCategory.Quote, VerseCategory.Excerpt };
+    var categoryLabels = new Dictionary<VerseCategory, string>
+    {
+        [VerseCategory.Prayer]  = "Prayers",
+        [VerseCategory.Quote]   = "Quotes",
+        [VerseCategory.Excerpt] = "Excerpts",
+    };
 }
 
-<h1 class="mb-4">My Verses</h1>
-
-<div class="row g-3 mb-4">
-    <div class="col-sm-4">
-        <div class="card text-center border-primary">
-            <div class="card-body">
-                <h2 class="card-title display-6">@Model.QuoteCount</h2>
-                <p class="card-text text-muted">Quotes</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card text-center border-secondary">
-            <div class="card-body">
-                <h2 class="card-title display-6">@Model.ExcerptCount</h2>
-                <p class="card-text text-muted">Excerpts</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="card text-center border-success">
-            <div class="card-body">
-                <h2 class="card-title display-6">@Model.PrayerCount</h2>
-                <p class="card-text text-muted">Prayers</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="d-flex justify-content-between align-items-center mb-2">
-    <h5 class="mb-0">Recent</h5>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Verses</h1>
     <a asp-page="/Verses/Index" class="btn btn-sm btn-outline-primary">View all</a>
 </div>
 
-@if (Model.RecentVerses.Count == 0)
+@foreach (var category in categoryOrder)
 {
-    <p class="text-muted">No verses yet. <a asp-page="/Verses/Create">Add your first one.</a></p>
-}
-else
-{
-    <ul class="list-group">
-        @foreach (var verse in Model.RecentVerses)
+    var verses = Model.VersesByCategory.GetValueOrDefault(category, []);
+    var carouselId = $"carousel-{category.ToString().ToLower()}";
+    <div class="mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="mb-0">@categoryLabels[category]</h5>
+            <small class="text-muted">@verses.Count verse@(verses.Count == 1 ? "" : "s")</small>
+        </div>
+        @if (verses.Count == 0)
         {
-            <li class="list-group-item d-flex justify-content-between align-items-start">
-                <div>
-                    <a asp-page="/Verses/Details" asp-route-id="@verse.Id" class="fw-semibold text-decoration-none">@verse.Title</a>
-                    @if (!string.IsNullOrEmpty(verse.Author))
+            <div class="card">
+                <div class="card-body text-muted text-center py-4">
+                    <p class="mb-1">No @categoryLabels[category].ToLower() yet.</p>
+                    <a asp-page="/Verses/Create" class="btn btn-sm btn-outline-secondary">Add one</a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div id="@carouselId" class="carousel slide" data-bs-ride="false">
+                <div class="carousel-inner">
+                    @for (int i = 0; i < verses.Count; i++)
                     {
-                        <small class="text-muted ms-1">— @verse.Author</small>
+                        var verse = verses[i];
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <div class="card verse-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">@verse.Title</h6>
+                                    <p class="card-text verse-content">@verse.Content</p>
+                                    @if (!string.IsNullOrEmpty(verse.Author))
+                                    {
+                                        <footer class="blockquote-footer mt-2">@verse.Author</footer>
+                                    }
+                                </div>
+                                <div class="card-footer d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">@(i + 1) / @verses.Count</small>
+                                    <a asp-page="/Verses/Details" asp-route-id="@verse.Id" class="btn btn-sm btn-outline-secondary">View</a>
+                                </div>
+                            </div>
+                        </div>
                     }
                 </div>
-                <span class="badge bg-secondary rounded-pill">@verse.Category</span>
-            </li>
+                @if (verses.Count > 1)
+                {
+                    <div class="d-flex justify-content-center gap-2 mt-2">
+                        <button class="btn btn-sm btn-outline-secondary" type="button"
+                                data-bs-target="#@carouselId" data-bs-slide="prev">
+                            &lsaquo; Prev
+                        </button>
+                        <button class="btn btn-sm btn-outline-secondary" type="button"
+                                data-bs-target="#@carouselId" data-bs-slide="next">
+                            Next &rsaquo;
+                        </button>
+                    </div>
+                }
+            </div>
         }
-    </ul>
+    </div>
 }

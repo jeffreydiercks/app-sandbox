@@ -26,6 +26,17 @@ html {
   text-align: start;
 }
 
+.verse-card {
+  min-height: 200px;
+}
+
+.verse-content {
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 /* ===================================================
    SYNC NOTE: The dark-theme block below is intentionally
    duplicated in src/AppHub/wwwroot/css/site.css.
