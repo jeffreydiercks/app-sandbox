@@ -1,0 +1,55 @@
+@page "{id}"
+@model MyGuitar.Pages.Lessons.DetailsModel
+@{
+    ViewData["Title"] = Model.Lesson?.Title ?? "Lesson";
+}
+
+@if (Model.Lesson is null)
+{
+    <p class="text-danger">Lesson not found.</p>
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <h1 class="mb-1">@Model.Lesson.Title</h1>
+            @if (!string.IsNullOrWhiteSpace(Model.Lesson.Stage))
+            {
+                <span class="badge bg-secondary">@Model.Lesson.Stage</span>
+            }
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-page="Edit" asp-route-id="@Model.Lesson.Id" class="btn btn-sm btn-outline-primary">Edit</a>
+            <a asp-page="Delete" asp-route-id="@Model.Lesson.Id" class="btn btn-sm btn-outline-danger">Delete</a>
+        </div>
+    </div>
+
+    <dl class="row mb-4">
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9">
+            <span class="badge @(Model.Lesson.Status == MyGuitar.Models.LessonStatus.Completed ? "bg-success" : Model.Lesson.Status == MyGuitar.Models.LessonStatus.InProgress ? "bg-primary" : "bg-secondary")">
+                @Model.Lesson.Status
+            </span>
+        </dd>
+
+        <dt class="col-sm-3">Last practiced</dt>
+        <dd class="col-sm-9">@(Model.Lesson.LastPracticedAt?.ToString("d MMM yyyy") ?? "Never")</dd>
+
+        <dt class="col-sm-3">Created</dt>
+        <dd class="col-sm-9">@Model.Lesson.CreatedAt.ToString("d MMM yyyy")</dd>
+    </dl>
+
+    @if (!string.IsNullOrWhiteSpace(Model.Lesson.Notes))
+    {
+        <div class="card mb-3">
+            <div class="card-header">Notes</div>
+            <div class="card-body">@Model.Lesson.Notes</div>
+        </div>
+    }
+
+    <form method="post" asp-page-handler="MarkPracticed">
+        <input type="hidden" name="id" value="@Model.Lesson.Id" />
+        <button class="btn btn-success me-2">✓ Mark as practiced today</button>
+    </form>
+    <a asp-page="Index" class="btn btn-outline-secondary mt-2">← Back</a>
+}

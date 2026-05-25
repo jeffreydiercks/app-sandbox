@@ -22,16 +22,29 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                MyVerses
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" asp-area="" asp-page="/Index">Home</a></li>
-                                <li><a class="dropdown-item" asp-area="" asp-page="/Verses/Index">Verses</a></li>
-                            </ul>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Verses/Index">Verses</a>
                         </li>
                     </ul>
+                    @{
+                        var appUrls = _config.GetSection("AppUrls").GetChildren()
+                            .Where(x => !string.IsNullOrWhiteSpace(x.Value))
+                            .ToList();
+                    }
+                    @if (appUrls.Any())
+                    {
+                        <ul class="navbar-nav me-3">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Apps</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    @foreach (var app in appUrls)
+                                    {
+                                        <li><a class="dropdown-item" href="@app.Value?.Trim()">@app.Key</a></li>
+                                    }
+                                </ul>
+                            </li>
+                        </ul>
+                    }
                     <partial name="_LoginPartial" />
                 </div>
             </div>

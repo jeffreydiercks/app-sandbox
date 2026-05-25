@@ -1,0 +1,39 @@
+@page
+@model MyLists.Pages.Lists.Items.EditModel
+@{
+    ViewData["Title"] = "Edit Item";
+}
+
+<h1 class="mb-4">Edit item</h1>
+
+<div class="card" style="max-width: 480px">
+    <div class="card-body">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Item!.Id" />
+            <input type="hidden" asp-for="Item!.ListId" />
+
+            <div class="mb-3">
+                <label asp-for="Item!.Title" class="form-label"></label>
+                <input asp-for="Item!.Title" class="form-control" />
+                <span asp-validation-for="Item!.Title" class="text-danger small"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Item!.Notes" class="form-label"></label>
+                <textarea asp-for="Item!.Notes" class="form-control" rows="2"></textarea>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Item!.DueDate" class="form-label"></label>
+                <input asp-for="Item!.DueDate" type="date" class="form-control" />
+            </div>
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a asp-page="/Lists/View" asp-route-id="@Model.Item!.ListId" class="btn btn-outline-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

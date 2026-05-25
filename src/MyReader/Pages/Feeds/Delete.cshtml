@@ -1,0 +1,26 @@
+@page "{id}"
+@model MyReader.Pages.Feeds.DeleteModel
+@{
+    ViewData["Title"] = "Delete Feed";
+}
+
+<h1 class="mb-4">Delete feed</h1>
+
+@if (Model.Feed is null)
+{
+    <p class="text-danger">Feed not found.</p>
+}
+else
+{
+    <div class="card border-danger mb-4" style="max-width: 480px">
+        <div class="card-body">
+            <p>Delete <strong>@Model.Feed.Title</strong>?</p>
+            <p class="text-muted small">All read-history for this feed will also be removed.</p>
+        </div>
+    </div>
+    <form method="post">
+        <input type="hidden" name="id" value="@Model.Feed.Id" />
+        <button type="submit" class="btn btn-danger me-2">Delete</button>
+        <a asp-page="Index" class="btn btn-outline-secondary">Cancel</a>
+    </form>
+}

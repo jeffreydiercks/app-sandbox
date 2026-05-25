@@ -1,0 +1,47 @@
+@page
+@model MyWorkouts.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Workouts</h1>
+    <a asp-page="/Routines/Create" class="btn btn-sm btn-outline-primary">+ New routine</a>
+</div>
+
+@if (Model.Routines.Any())
+{
+    <div class="row g-3">
+        @foreach (var routine in Model.Routines)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">@routine.Name</h5>
+                        @if (!string.IsNullOrWhiteSpace(routine.Description))
+                        {
+                            <p class="card-text text-muted small">@routine.Description</p>
+                        }
+                        <div class="d-flex gap-3 text-muted small">
+                            <span>⏱ @routine.EstimatedMinutes min</span>
+                            <span>💪 @routine.Exercises.Count exercise@(routine.Exercises.Count == 1 ? "" : "s")</span>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex gap-2">
+                        <a asp-page="/Routines/Run" asp-route-id="@routine.Id" class="btn btn-sm btn-primary">▶ Start</a>
+                        <a asp-page="/Routines/Details" asp-route-id="@routine.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body text-center py-5 text-muted">
+            <p class="mb-2">No routines yet.</p>
+            <a asp-page="/Routines/Create" class="btn btn-primary">Create your first routine</a>
+        </div>
+    </div>
+}

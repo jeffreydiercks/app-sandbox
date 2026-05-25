@@ -1,0 +1,63 @@
+@page "{id}"
+@model MyWorkouts.Pages.Routines.DetailsModel
+@{
+    ViewData["Title"] = Model.Routine?.Name ?? "Routine";
+}
+
+@if (Model.Routine is null)
+{
+    <p class="text-danger">Routine not found.</p>
+}
+else
+{
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div>
+            <h1 class="mb-1">@Model.Routine.Name</h1>
+            @if (!string.IsNullOrWhiteSpace(Model.Routine.Description))
+            {
+                <p class="text-muted mb-1">@Model.Routine.Description</p>
+            }
+            <span class="badge bg-secondary">⏱ @Model.Routine.EstimatedMinutes min</span>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <a asp-page="Run" asp-route-id="@Model.Routine.Id" class="btn btn-primary">▶ Start workout</a>
+            <a asp-page="Edit" asp-route-id="@Model.Routine.Id" class="btn btn-outline-secondary">Edit</a>
+            <a asp-page="Delete" asp-route-id="@Model.Routine.Id" class="btn btn-outline-danger">Delete</a>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h5 class="mb-0">Exercises</h5>
+        <a asp-page="/Routines/Exercises/Create" asp-route-routineId="@Model.Routine.Id" class="btn btn-sm btn-outline-primary">+ Add exercise</a>
+    </div>
+
+    @if (Model.Routine.Exercises.Any())
+    {
+        <div class="list-group mb-3">
+            @foreach (var ex in Model.Routine.Exercises.OrderBy(e => e.Order))
+            {
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="badge bg-secondary me-2">@ex.Order</span>
+                        <strong>@ex.Name</strong>
+                        <span class="text-muted small ms-2">@ex.DurationSeconds s work / @ex.RestSeconds s rest</span>
+                        @if (!string.IsNullOrWhiteSpace(ex.Notes))
+                        {
+                            <div class="text-muted small">@ex.Notes</div>
+                        }
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a asp-page="/Routines/Exercises/Edit" asp-route-exerciseId="@ex.Id" asp-route-routineId="@Model.Routine.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a asp-page="/Routines/Exercises/Delete" asp-route-exerciseId="@ex.Id" asp-route-routineId="@Model.Routine.Id" class="btn btn-sm btn-outline-danger">Del</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">No exercises yet. <a asp-page="/Routines/Exercises/Create" asp-route-routineId="@Model.Routine.Id">Add one!</a></p>
+    }
+
+    <a asp-page="Index" class="btn btn-outline-secondary mt-2">← Back</a>
+}

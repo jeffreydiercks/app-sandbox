@@ -1,0 +1,36 @@
+@page
+@model MyLists.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Lists</h1>
+    <a asp-page="/Lists/Create" class="btn btn-sm btn-outline-primary">+ New list</a>
+</div>
+
+@if (Model.Lists.Any())
+{
+    <div class="list-group">
+        @foreach (var (list, openCount) in Model.Lists)
+        {
+            <a asp-page="/Lists/View" asp-route-id="@list.Id"
+               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">@list.Name</span>
+                @if (openCount > 0)
+                {
+                    <span class="badge bg-primary rounded-pill">@openCount</span>
+                }
+            </a>
+        }
+    </div>
+}
+else
+{
+    <div class="card">
+        <div class="card-body text-center py-5 text-muted">
+            <p class="mb-2">No lists yet.</p>
+            <a asp-page="/Lists/Create" class="btn btn-primary">Create your first list</a>
+        </div>
+    </div>
+}
