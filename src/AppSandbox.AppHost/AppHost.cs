@@ -1,7 +1,10 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+#pragma warning disable ASPIRECOSMOSDB001
 var cosmos = builder.AddAzureCosmosDB("cosmos")
-                    .RunAsEmulator();
+                    .RunAsPreviewEmulator(e => e
+                        .WithDataExplorer());
+#pragma warning restore ASPIRECOSMOSDB001
 
 builder.AddProject<Projects.AppHub>("apphub", launchProfileName: "https");
 
