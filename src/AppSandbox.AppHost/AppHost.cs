@@ -2,10 +2,14 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var cosmos = builder.AddAzureCosmosDB("cosmos")
                     .RunAsEmulator(e => e
-                        .WithUrlForEndpoint("https", url =>
+                        .WithUrls(context =>
                         {
-                            url.DisplayText = "Data Explorer";
-                            url.Url = "/_explorer/index.html";
+                            var emulatorUrl = context.Urls.FirstOrDefault(u => u.Endpoint?.EndpointName == "emulator");
+                            if (emulatorUrl != null && Uri.TryCreate(emulatorUrl.Url, UriKind.Absolute, out var uri))
+                            {
+                                emulatorUrl.Url = $"https://{uri.Host}:{uri.Port}/_explorer/index.html";
+                                emulatorUrl.DisplayText = "Data Explorer";
+                            }
                         }));
 
 builder.AddProject<Projects.AppHub>("apphub", launchProfileName: "https");
