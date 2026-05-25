@@ -66,7 +66,7 @@ var WorkoutTimer = (function () {
     function setPhaseLabel(label, cssClass) {
         _els.phase.textContent = label;
         _els.phase.className = 'badge mb-2';
-        _els.phase.classList.add(cssClass || 'bg-secondary');
+        _els.phase.classList.add(...(cssClass || 'bg-secondary').split(' '));
         _els.phase.style.fontSize = '1rem';
     }
 

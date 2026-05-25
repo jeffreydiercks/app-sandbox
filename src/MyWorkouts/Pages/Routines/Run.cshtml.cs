@@ -50,6 +50,25 @@ public class RunModel(MyWorkoutsDbContext db) : PageModel
             ? parsed.ToUniversalTime()
             : DateTime.UtcNow;
 
+        var exerciseLookup = routine.Exercises.ToDictionary(e => e.Id);
+
+        var entries = Log
+            .Where(l => exerciseLookup.ContainsKey(l.ExerciseId))
+            .Select(l =>
+            {
+                var ex = exerciseLookup[l.ExerciseId];
+                return new WorkoutLogEntry
+                {
+                    ExerciseId = ex.Id,
+                    ExerciseName = ex.Name,
+                    SetsCompleted = Math.Clamp(l.SetsCompleted, 0, ex.Sets),
+                    ActualReps = l.ActualReps.HasValue ? Math.Clamp(l.ActualReps.Value, 0, 500) : null,
+                    ActualWeight = l.ActualWeight.HasValue ? Math.Max(0, l.ActualWeight.Value) : null,
+                    ActualWeightUnit = ex.WeightUnit
+                };
+            })
+            .ToList();
+
         var session = new WorkoutSession
         {
             UserId = userId,
@@ -57,15 +76,7 @@ public class RunModel(MyWorkoutsDbContext db) : PageModel
             RoutineName = routine.Name,
             StartedAt = startedAt,
             CompletedAt = DateTime.UtcNow,
-            Entries = Log.Select(l => new WorkoutLogEntry
-            {
-                ExerciseId = l.ExerciseId,
-                ExerciseName = l.ExerciseName,
-                SetsCompleted = l.SetsCompleted,
-                ActualReps = l.ActualReps,
-                ActualWeight = l.ActualWeight,
-                ActualWeightUnit = l.ActualWeightUnit
-            }).ToList()
+            Entries = entries
         };
 
         db.WorkoutSessions.Add(session);
