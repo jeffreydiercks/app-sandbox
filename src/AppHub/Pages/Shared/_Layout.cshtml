@@ -27,10 +27,10 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-page="/ThemeTest">Theme Test</a>
                         </li>
-                        @if (!string.IsNullOrEmpty(_config["AppUrls:MyVerses"]))
+                        @if (!string.IsNullOrWhiteSpace(_config["AppUrls:MyVerses"]))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" href="@_config["AppUrls:MyVerses"]">MyVerses</a>
+                                <a class="nav-link" href="@_config["AppUrls:MyVerses"]?.Trim()">MyVerses</a>
                             </li>
                         }
                     </ul>

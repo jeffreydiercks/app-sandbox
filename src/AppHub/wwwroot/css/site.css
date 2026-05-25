@@ -26,6 +26,22 @@ html {
   text-align: start;
 }
 
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--bs-primary);
+  display: inline-block;
+}
+
+/* ===================================================
+   SYNC NOTE: The dark-theme block below is intentionally
+   duplicated in src/MyVerses/wwwroot/css/site.css.
+   Changes here must be mirrored there (and vice versa)
+   until the theme is extracted into a shared RCL.
+   =================================================== */
+
 /* ===================================================
    Dark theme — Bootstrap 5.3 CSS variable overrides
    Sadakat-inspired: near-black body, coral-orange accent

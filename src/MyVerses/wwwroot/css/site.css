@@ -27,6 +27,13 @@ html {
 }
 
 /* ===================================================
+   SYNC NOTE: The dark-theme block below is intentionally
+   duplicated in src/AppHub/wwwroot/css/site.css.
+   Changes here must be mirrored there (and vice versa)
+   until the theme is extracted into a shared RCL.
+   =================================================== */
+
+/* ===================================================
    Dark theme — Bootstrap 5.3 CSS variable overrides
    Sadakat-inspired: near-black body, coral-orange accent
    To switch to green: replace #bf6830 → #22c55e
