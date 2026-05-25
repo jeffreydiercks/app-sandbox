@@ -1,8 +1,10 @@
 @page "{id}"
 @model MyWorkouts.Pages.Routines.RunModel
+@using MyWorkouts.Models
 @{
     ViewData["Title"] = "Workout";
     Layout = "_Layout";
+    var orderedExercises = Model.Routine?.Exercises.OrderBy(e => e.Order).ToList() ?? [];
 }
 
 @if (Model.Routine is null)
@@ -27,12 +29,14 @@ else
     <div class="card mx-auto mb-4" style="max-width: 480px">
         <div class="card-body text-center py-4">
             <div id="exerciseName" class="fs-3 fw-bold mb-1">—</div>
-            <div id="exerciseNotes" class="text-muted small mb-3"></div>
+            <div id="exerciseInfo" class="text-muted small mb-1"></div>
+            <div id="exerciseNotes" class="text-muted small fst-italic mb-3"></div>
             <div id="phase" class="badge bg-secondary mb-2" style="font-size:1rem">Ready</div>
             <div id="timerDisplay" class="display-1 fw-bold my-3" style="font-variant-numeric: tabular-nums">—</div>
             <div id="progress" class="text-muted small mb-3">Exercise 0 of @Model.Routine.Exercises.Count</div>
-            <div class="d-flex justify-content-center gap-3">
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
                 <button id="btnStart" class="btn btn-primary btn-lg px-4">▶ Start</button>
+                <button id="btnDone" class="btn btn-success btn-lg px-4 d-none">✓ Done</button>
                 <button id="btnPause" class="btn btn-outline-secondary btn-lg px-4 d-none">⏸ Pause</button>
                 <button id="btnResume" class="btn btn-success btn-lg px-4 d-none">▶ Resume</button>
                 <button id="btnStop" class="btn btn-outline-danger btn-lg px-4 d-none">■ Stop</button>
@@ -45,35 +49,125 @@ else
     </div>
 
     <!-- Exercise list overview -->
-    <div class="list-group mx-auto" style="max-width: 480px">
-        @foreach (var ex in Model.Routine.Exercises.OrderBy(e => e.Order))
+    <div class="list-group mx-auto mb-5" style="max-width: 480px">
+        @foreach (var ex in orderedExercises)
         {
-            <div class="list-group-item d-flex justify-content-between" id="ex-@ex.Id">
-                <span>@ex.Order. @ex.Name</span>
-                <span class="text-muted small">@ex.DurationSeconds s + @ex.RestSeconds s rest</span>
+            <div class="list-group-item" id="ex-@ex.Id">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <span class="fw-semibold">@ex.Order. @ex.Name</span>
+                        @if (ex.IsOneSided)
+                        {
+                            <span class="badge bg-info text-dark ms-1" style="font-size:.7rem">Both sides</span>
+                        }
+                        <div class="text-muted small">
+                            @if (ex.IsRepBased)
+                            {
+                                <span>@ex.Reps rep@(ex.Reps != 1 ? "s" : "") × @ex.Sets set@(ex.Sets != 1 ? "s" : "")</span>
+                            }
+                            else
+                            {
+                                <span>@ex.DurationSeconds s × @ex.Sets set@(ex.Sets != 1 ? "s" : "")</span>
+                            }
+                            @if (ex.RestSeconds > 0)
+                            {
+                                <span> · @ex.RestSeconds s rest</span>
+                            }
+                        </div>
+                    </div>
+                    <div class="text-end ms-2">
+                        @if (ex.Equipment != EquipmentType.Bodyweight)
+                        {
+                            <span class="badge bg-secondary">@ex.Equipment.ToDisplayName()</span>
+                        }
+                        @if (ex.PrescribedWeight.HasValue)
+                        {
+                            <div class="text-muted small">@ex.PrescribedWeight @ex.WeightUnit</div>
+                        }
+                    </div>
+                </div>
             </div>
         }
+    </div>
+
+    <!-- Workout log (revealed on completion) -->
+    <div id="log-section" class="mx-auto d-none" style="max-width: 480px">
+        <h5 class="mb-3">Log this workout</h5>
+        <form method="post" asp-route-id="@Model.Routine.Id">
+            <input type="hidden" name="StartedAtUtc" id="logStartedAt" value="" />
+            @for (int i = 0; i < orderedExercises.Count; i++)
+            {
+                var ex = orderedExercises[i];
+                <input type="hidden" name="Log[@i].ExerciseId" value="@ex.Id" />
+                <input type="hidden" name="Log[@i].ExerciseName" value="@ex.Name" />
+                <input type="hidden" name="Log[@i].ActualWeightUnit" value="@ex.WeightUnit" />
+                <div class="mb-2 p-2 border rounded">
+                    <div class="fw-semibold small mb-2">@ex.Order. @ex.Name</div>
+                    <div class="row g-2">
+                        <div class="col-4">
+                            <label class="form-label small mb-1">Sets done</label>
+                            <input type="number" name="Log[@i].SetsCompleted" class="form-control form-control-sm" min="0" value="@ex.Sets" />
+                        </div>
+                        @if (ex.IsRepBased)
+                        {
+                            <div class="col-4">
+                                <label class="form-label small mb-1">Reps</label>
+                                <input type="number" name="Log[@i].ActualReps" class="form-control form-control-sm" min="0" value="@ex.Reps" />
+                            </div>
+                        }
+                        @if (ex.PrescribedWeight.HasValue)
+                        {
+                            <div class="col-4">
+                                <label class="form-label small mb-1">Weight (@ex.WeightUnit)</label>
+                                <input type="number" name="Log[@i].ActualWeight" class="form-control form-control-sm" min="0" step="0.5" value="@ex.PrescribedWeight" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            <div class="d-flex gap-2 mt-3">
+                <button type="submit" class="btn btn-success">Save log</button>
+                <a asp-page="Details" asp-route-id="@Model.Routine.Id" class="btn btn-outline-secondary">Skip</a>
+            </div>
+        </form>
     </div>
 }
 
 @section Scripts {
     <script>
         var _exercises = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
-            Model.Routine?.Exercises
-                .OrderBy(e => e.Order)
-                .Select(e => new { e.Id, e.Name, e.DurationSeconds, e.RestSeconds, e.Order, e.Notes })
-                .ToList() ?? []
+            orderedExercises
+                .Select(e => new {
+                    id = e.Id,
+                    name = e.Name,
+                    isRepBased = e.IsRepBased,
+                    durationSeconds = e.DurationSeconds,
+                    reps = e.Reps,
+                    sets = e.Sets,
+                    intraSetRestSeconds = e.IntraSetRestSeconds,
+                    restSeconds = e.RestSeconds,
+                    prescribedWeight = e.PrescribedWeight,
+                    weightUnit = e.WeightUnit,
+                    equipment = e.Equipment.ToString(),
+                    isOneSided = e.IsOneSided,
+                    order = e.Order,
+                    notes = e.Notes
+                })
+                .ToList(),
+            new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = null }
         ));
     </script>
     <script src="~/js/workout-timer.js" asp-append-version="true"></script>
     <script>
         WorkoutTimer.init(_exercises, {
             name: document.getElementById('exerciseName'),
+            info: document.getElementById('exerciseInfo'),
             notes: document.getElementById('exerciseNotes'),
             phase: document.getElementById('phase'),
             display: document.getElementById('timerDisplay'),
             progress: document.getElementById('progress'),
             btnStart: document.getElementById('btnStart'),
+            btnDone: document.getElementById('btnDone'),
             btnPause: document.getElementById('btnPause'),
             btnResume: document.getElementById('btnResume'),
             btnStop: document.getElementById('btnStop'),

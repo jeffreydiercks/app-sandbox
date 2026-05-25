@@ -1,0 +1,58 @@
+@page
+@model MyWorkouts.Pages.WorkoutSessions.IndexModel
+@{
+    ViewData["Title"] = "Workout History";
+}
+
+<h1 class="mb-4">Workout history</h1>
+
+@if (!Model.Sessions.Any())
+{
+    <p class="text-muted">No workouts logged yet. Complete a routine and save a log to see it here.</p>
+}
+else
+{
+    <div class="list-group">
+        @foreach (var session in Model.Sessions)
+        {
+            <div class="list-group-item">
+                <div class="d-flex justify-content-between align-items-start mb-1">
+                    <h6 class="mb-0 fw-semibold">@session.RoutineName</h6>
+                    <small class="text-muted">@session.StartedAt.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</small>
+                </div>
+                @if (session.CompletedAt.HasValue)
+                {
+                    var duration = (int)(session.CompletedAt.Value - session.StartedAt).TotalMinutes;
+                    <div class="text-muted small mb-2">@duration min · @session.Entries.Count exercise@(session.Entries.Count == 1 ? "" : "s")</div>
+                }
+                @if (session.Entries.Any())
+                {
+                    <div class="row row-cols-2 row-cols-md-3 g-1">
+                        @foreach (var entry in session.Entries)
+                        {
+                            <div class="col">
+                                <div class="border rounded px-2 py-1 small">
+                                    <span class="fw-semibold">@entry.ExerciseName</span>
+                                    <span class="text-muted">
+                                        @if (entry.ActualReps.HasValue)
+                                        {
+                                            <span>· @entry.SetsCompleted×@entry.ActualReps reps</span>
+                                        }
+                                        else
+                                        {
+                                            <span>· @entry.SetsCompleted set@(entry.SetsCompleted != 1 ? "s" : "")</span>
+                                        }
+                                        @if (entry.ActualWeight.HasValue)
+                                        {
+                                            <span>· @entry.ActualWeight @entry.ActualWeightUnit</span>
+                                        }
+                                    </span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
