@@ -2,6 +2,8 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var cosmos = builder.AddAzureCosmosDB("cosmos")
                     .RunAsEmulator(e => e
+                        .WithLifetime(ContainerLifetime.Persistent)
+                        .WithDataVolume()
                         .WithUrls(context =>
                         {
                             var emulatorUrl = context.Urls.FirstOrDefault(u => u.Endpoint?.EndpointName == "emulator");
